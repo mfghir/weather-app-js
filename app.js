@@ -14,7 +14,7 @@ const searchInput = document.querySelector("input");
 const searchButton = document.querySelector("button");
 const weatherContainer = document.getElementById("weather");
 
-const location = document.getElementById("location");
+const locationIcon = document.getElementById("location");
 const forecastContainer = document.getElementById("forecast");
 
 const getCurrentWeatherByName = async (city) => {
@@ -33,8 +33,16 @@ const getCurrentWeatherByCoordinates = async (lat, lon) => {
   return json;
 };
 
-const getForecastByName = async (city) => {
+const getForecastWeatherByName = async (city) => {
   const url = `${BASE_URL}/forecast?q=${city}&appid=${API_KEY}&units=metric`;
+  const response = await fetch(url);
+  const json = await response.json();
+
+  return json;
+};
+
+const getForecastWeatherByCoordinates = async (lat, lon) => {
+  const url = `${BASE_URL}/forecast?q=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
   const response = await fetch(url);
   const json = await response.json();
 
@@ -66,6 +74,8 @@ const getWeekDay = (date) => {
 };
 
 const renderForecastWeather = (data) => {
+  forecastContainer.innerHTML = "";
+
   data = data.list.filter((obj) => obj.dt_txt.endWidth("12:00:00"));
   data.forEach((i) => {
     const forecastJSX = `
@@ -92,7 +102,7 @@ const searchHandler = async () => {
   const currentData = await getCurrentWeatherByName(cityName);
   renderCurrentWeather(currentData);
 
-  const forecastData = await getForecastByName(cityName);
+  const forecastData = await getForecastWeatherByName(cityName);
   renderForecastWeather(forecastData);
 };
 
@@ -100,6 +110,9 @@ const positionCallback = async (position) => {
   const { latitude, longitude } = position.coords;
   const currentData = await getCurrentWeatherByCoordinates(latitude, longitude);
   renderCurrentWeather(currentData);
+
+  const forecastData = getForecastWeatherByCoordinates(latitude, longitude);
+  renderForecastWeather(forecastData)
 };
 
 const errorCallback = (error) => {
