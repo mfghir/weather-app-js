@@ -5,8 +5,18 @@ const searchInput = document.querySelector("input");
 const searchButton = document.querySelector("button");
 const weatherContainer = document.getElementById("weather");
 
+const location = document.getElementById("location");
+
 const getCurrentWeatherByName = async (city) => {
   const url = `${BASE_URL}/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  const response = await fetch(url);
+  const json = await response.json();
+
+  return json;
+};
+
+const getCurrentWeatherByCoordinates = async (lat, lon) => {
+  const url = `${BASE_URL}/weather?q=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
   const response = await fetch(url);
   const json = await response.json();
 
@@ -43,4 +53,23 @@ const searchHandler = async () => {
   renderCurrentWeather(currentData);
 };
 
+const positionCallback = async (position) => {
+  const { latitude, longitude } = position.coords;
+  const currentData = await getCurrentWeatherByCoordinates(latitude, longitude);
+  renderCurrentWeather(currentData);
+};
+
+const errorCallback = (error) => {
+  console.log(error.message);
+};
+
+const locationHandler = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(positionCallback, errorCallback);
+  } else {
+    alert("your browser does not support geolocation");
+  }
+};
+
 searchButton.addEventListener("click", searchHandler);
+location.addEventListener("click", locationHandler);
