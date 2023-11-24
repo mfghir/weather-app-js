@@ -38,7 +38,7 @@ const renderForecastWeather = (data) => {
   if (!data) return;
   forecastContainer.innerHTML = "";
 
-  data = data.list.filter((obj) => obj.dt_txt.endWidth("12:00:00"));
+  data = data.list.filter((obj) => obj.dt_txt.endsWith("12:00:00"));
   data.forEach((i) => {
     const forecastJSX = `
     <div>

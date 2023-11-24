@@ -11,14 +11,14 @@ const getWeatherData = async (type, data) => {
       if (typeof data === "string") {
         url = `${BASE_URL}/weather?q=${data.city}&appid=${API_KEY}&units=metric`;
       } else {
-        url = `${BASE_URL}/weather?q=${data.latitude}&lon=${data.longitude}&appid=${API_KEY}&units=metric`;
+        url = `${BASE_URL}/weather?lat=${data.latitude}&lon=${data.longitude}&appid=${API_KEY}&units=metric`;
       }
       break;
     case "forecast":
       if (typeof data === "string") {
         url = `${BASE_URL}/forecast?q=${data.city}&appid=${API_KEY}&units=metric`;
       } else {
-        url = `${BASE_URL}/forecast?q=${data.latitude}&lon=${data.longitude}&appid=${API_KEY}&units=metric`;
+        url = `${BASE_URL}/forecast?lat=${data.latitude}&lon=${data.longitude}&appid=${API_KEY}&units=metric`;
       }
       break;
     default:
