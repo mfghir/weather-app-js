@@ -20,7 +20,7 @@ body {
 #search {
     display: flex;
     justify-content: center;
-    padding: 100px 0 200px;
+    padding: 100px 10px 200px;
 
     border-radius: 0 0 40px;
     background: linear-gradient(13deg, var(--color-primary) 47%, var(--color-secondary)100%);
@@ -127,6 +127,7 @@ body {
 #forecast {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 #forecast div {
@@ -136,6 +137,7 @@ body {
 
     border-radius: 20px;
     box-shadow: var(--color-secondary) 0px 25px 80px -25px;
+    margin-bottom: 40px;
 }
 
 #forecast h3 {
@@ -213,5 +215,21 @@ body {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+
+@media (max-width:500px) {
+    #weather {
+        width: 95%;
+    }
+
+    #forecast {
+        width: 95%;
+        margin: auto
+    }
+
+    #weather #info {
+        flex-direction: column;
     }
 }
